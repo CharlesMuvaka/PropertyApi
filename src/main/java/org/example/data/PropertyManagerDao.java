@@ -13,7 +13,7 @@ public class PropertyManagerDao implements PropertyManagerInterface {
     public void addPropertyManager(PropertyManager propertymanager) {
         String query = "INSERT INTO property_managers(manager_name,phone_number,email,property_name,property_description) VALUES(:manager_name,:phone_number,:email,:property_name,:property_description)";
         try(Connection connection = DB.sql20.open()){
-            int id = (int) connection.createQuery(query,true)
+             propertymanager.id = (int) connection.createQuery(query,true)
                     .addParameter("manager_name", propertymanager.manager_name)
                     .addParameter("phone_number", propertymanager.phone_number)
                     .addParameter("email", propertymanager.email)
