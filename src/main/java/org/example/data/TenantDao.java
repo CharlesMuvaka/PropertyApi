@@ -20,6 +20,17 @@ public class TenantDao implements TenantInterface {
         }
     }
 
+    @Override
+    public Tenant getTenantById(int id) {
+        String query = "SELECT * FROM tenant WHERE id = :id";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).addParameter("id", id).executeAndFetchFirst(Tenant.class);
+        }
+
+    }
+
+
+
 
 
 }
