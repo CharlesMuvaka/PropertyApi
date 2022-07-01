@@ -12,7 +12,7 @@ public class PropertyDao implements PropertyInterface {
     public void addProperty(Property property) {
         String query = "INSERT INTO property(property_name,manager_name) VALUES(:property_name,:manager_name)";
         try(Connection conn = DB.sql20.open()){
-            property.id = (int) conn.createQuery(query)
+            property.id = (int) conn.createQuery(query,true)
                     .addParameter("property_name", property.property_name)
                     .addParameter("manager_name", property.manager_name)
                     .executeUpdate()
