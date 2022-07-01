@@ -1,4 +1,25 @@
 package org.example.data;
 
-public class TenantDao {
+import org.example.dao.TenantInterface;
+import org.example.models.Tenant;
+import org.sql2o.Connection;
+
+import java.util.List;
+
+public class TenantDao implements TenantInterface {
+    @Override
+    public void addTenant(Tenant tenant) {
+        String query = "INSERT INTO tenant(tenant_name, tenant_email, property_name) VALUES(:tenant_name,:tenant_email,:property_name)";
+        try(Connection conn = DB.sql20.open()){
+            tenant.id = (int) conn.createQuery(query)
+                    .addParameter("tenant_name", tenant.tenant_name)
+                    .addParameter("tenant_email", tenant.tenant_email)
+                    .addParameter("property_name", tenant.property_name)
+                    .executeUpdate()
+                    .getKey();
+        }
+    }
+
+
+
 }
