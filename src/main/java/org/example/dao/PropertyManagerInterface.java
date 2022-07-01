@@ -17,7 +17,8 @@ public interface PropertyManagerInterface {
     List<Property> propertyManagerProperties(String managerName);
 
     //Update
-
+    void update(int id, PropertyManager manager);
 
     //Delete
+    void deleteById(int id);
 }
