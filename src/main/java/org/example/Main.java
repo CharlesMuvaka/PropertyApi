@@ -32,6 +32,13 @@ public class Main {
             return gson.toJson(propertyManagerDao.getAllPropertyManagers());//send it back to be displayed
         });
 
+        //get property manager by id
+        get("/propertymanager/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            int id = Integer.parseInt(req.params(":id"));
+            PropertyManager propertyManager = propertyManagerDao.getPropertyManagerById(id);
+            return gson.toJson(propertyManagerDao.getPropertyManagerById(id));//send it back to be displayed
+        });
+
 
         //add a tenant
         post("/tenant","application/json ",(request, response) -> {
