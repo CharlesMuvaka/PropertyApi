@@ -16,7 +16,7 @@ manager_name VARCHAR
 CREATE TABLE property_managers(
 id serial PRIMARY KEY,
 manager_name VARCHAR,
-phone_number int,
+phone_number VARCHAR,
 email VARCHAR,
 property_name VARCHAR,
 property_description VARCHAR
