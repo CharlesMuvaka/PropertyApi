@@ -29,9 +29,6 @@ public class Main {
 
         //get all property managers
         get("/propertymanagers", "application/json", (req, res) -> { //accept a request in format JSON from an app
-
-
-
             return gson.toJson(propertyManagerDao.getAllPropertyManagers());//send it back to be displayed
         });
 
@@ -42,6 +39,11 @@ public class Main {
             tenantDao.addTenant(tenant);
             response.status(201);
             return gson.toJson(tenant);
+        });
+
+        //get all tenants
+        get("/tenants", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            return gson.toJson(tenantDao.getAllTenants());//send it back to be displayed
         });
 
         //add a property
