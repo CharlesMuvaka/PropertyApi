@@ -33,6 +33,16 @@ public class PropertyManagerDao implements PropertyManagerInterface {
         }
 
     }
+    @Override
+    public List<PropertyManager> getAllPropertyManagers() {
+        String query = "SELECT * FROM property_managers";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).executeAndFetch(PropertyManager.class);
+        }
+
+    }
+
+
 
 
 
