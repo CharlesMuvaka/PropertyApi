@@ -29,6 +29,15 @@ public class PropertyDao implements PropertyInterface {
 
     }
 
+    @Override
+    public List<Property> getAllProperties() {
+        String query = " SELECT * FROM property";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).executeAndFetch(Property.class);
+        }
+
+    }
+
 
 
 
