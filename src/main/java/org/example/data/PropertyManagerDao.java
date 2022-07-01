@@ -44,7 +44,7 @@ public class PropertyManagerDao implements PropertyManagerInterface {
 
     @Override
     public List<Property> propertyManagerProperties(String managerName) {
-        String query = "SELECT * FROM properties WHERE manager_name = :manager_name";
+        String query = "SELECT * FROM properties WHERE manager_name = :managerName";
         try(Connection conn = DB.sql20.open()){
             return conn.createQuery(query).addParameter("manager_name", managerName).executeAndFetch(Property.class);
         }
