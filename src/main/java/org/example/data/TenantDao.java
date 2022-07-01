@@ -11,7 +11,7 @@ public class TenantDao implements TenantInterface {
     public void addTenant(Tenant tenant) {
         String query = "INSERT INTO tenant(tenant_name, tenant_email, property_name) VALUES(:tenant_name,:tenant_email,:property_name)";
         try(Connection conn = DB.sql20.open()){
-            tenant.id = (int) conn.createQuery(query)
+            tenant.id = (int) conn.createQuery(query,true)
                     .addParameter("tenant_name", tenant.tenant_name)
                     .addParameter("tenant_email", tenant.tenant_email)
                     .addParameter("property_name", tenant.property_name)
