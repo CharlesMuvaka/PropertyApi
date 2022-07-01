@@ -8,7 +8,7 @@ import java.util.List;
 public interface PropertyInterface {
 
     //Create
-    void addProperty(PropertyManager propertymanager);
+    void addProperty(Property property);
 
     //Read
     Property getPropertyById(int id);
