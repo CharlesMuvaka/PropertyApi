@@ -36,6 +36,14 @@ public class Main {
             return gson.toJson(tenant);
         });
 
+        //add a property
+        post("/property","application/json ",(request, response) -> {
+            Property property = gson.fromJson(request.body(), Property.class);
+            propertyDao.addProperty(property);
+            response.status(201);
+            return gson.toJson(property);
+        });
+
 
     }
 
