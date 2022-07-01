@@ -8,7 +8,7 @@ import org.example.models.Property;
 import org.example.models.PropertyManager;
 import org.example.models.Tenant;
 
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -25,6 +25,14 @@ public class Main {
             propertyManagerDao.addPropertyManager(propertyManager);
             response.status(201);
             return gson.toJson(propertyManager);
+        });
+
+        //get all property managers
+        get("/propertymanagers", "application/json", (req, res) -> { //accept a request in format JSON from an app
+
+
+
+            return gson.toJson(propertyManagerDao.getAllPropertyManagers());//send it back to be displayed
         });
 
 
@@ -45,6 +53,8 @@ public class Main {
         });
 
 
+
+        after((req,res)-> res.type("application/json"));
     }
 
 }
