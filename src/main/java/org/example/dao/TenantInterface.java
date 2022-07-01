@@ -8,12 +8,11 @@ public interface TenantInterface {
 
     //Create
     void addTenant(Tenant tenant);
-    void addPropertyName(String propertyName);
 
     //Read
     Tenant getTenantById(int id);
     List<Tenant> getAllTenants();
-    List<Tenant> getTenantsInAProperty();
+    List<Tenant> getTenantsInAProperty(String propertyNAme);
 
     //Update
     void updateTenant(Tenant tenant);
