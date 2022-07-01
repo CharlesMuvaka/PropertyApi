@@ -54,6 +54,11 @@ public class Main {
             return gson.toJson(property);
         });
 
+        //get all properties
+        get("/property", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            return gson.toJson(propertyDao.getAllProperties());//send it back to be displayed
+        });
+
 
 
         after((req,res)-> res.type("application/json"));
