@@ -54,7 +54,7 @@ public class Main {
             return gson.toJson(tenantDao.getTenantById(id));//send it back to be displayed
         });
 
-        //get all tenants
+        //get tenant by id
         get("/tenants", "application/json", (req, res) -> { //accept a request in format JSON from an app
             return gson.toJson(tenantDao.getAllTenants());//send it back to be displayed
         });
@@ -65,6 +65,12 @@ public class Main {
             propertyDao.addProperty(property);
             response.status(201);
             return gson.toJson(property);
+        });
+
+        //get property by id
+        get("/property/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            int id = Integer.parseInt(req.params(":id"));
+            return gson.toJson(propertyDao.getPropertyById(id));//send it back to be displayed
         });
 
         //get all properties
