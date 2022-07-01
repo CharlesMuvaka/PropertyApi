@@ -38,6 +38,20 @@ public class TenantDao implements TenantInterface {
 
     }
 
+    @Override
+    public List<Tenant> getTenantsInAProperty(String propertyNAme) {
+        String query  = "SELECT * FROM tenant WHERE property_name = :propertyName";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).addParameter("propertyName", propertyNAme).executeAndFetch(Tenant.class);
+        }
+
+    }
+
+    @Override
+    public void updateTenant(Tenant tenant) {
+
+    }
+
 
 
 
