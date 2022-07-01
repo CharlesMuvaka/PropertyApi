@@ -18,12 +18,25 @@ public class Main {
         PropertyDao propertyDao = new PropertyDao();
         Gson gson = new Gson();
 
+
+        //add a property manager
         post("/propertymanager","application/json ",(request, response) -> {
             PropertyManager propertyManager = gson.fromJson(request.body(), PropertyManager.class);
             propertyManagerDao.addPropertyManager(propertyManager);
             response.status(201);
             return gson.toJson(propertyManager);
         });
+
+
+        //add a tenant
+        post("/tenant","application/json ",(request, response) -> {
+            Tenant tenant = gson.fromJson(request.body(), Tenant.class);
+            tenantDao.addTenant(tenant);
+            response.status(201);
+            return gson.toJson(tenant);
+        });
+
+
     }
 
 }
