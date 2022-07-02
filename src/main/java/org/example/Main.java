@@ -72,6 +72,23 @@ public class Main {
 
         });
 
+        //get all managers properties
+        get("/managerProperties/:managerName", "application/json", (req,res)->{
+            String managerName = req.params(":managerName");
+
+            if (managerName != null){
+                if (propertyManagerDao.propertyManagerProperties(managerName) !=null){
+                    return gson.toJson(propertyManagerDao.propertyManagerProperties(managerName));
+
+                }else{
+                  return new ApiException(404, "The given manager is not available");
+                }
+            }else{
+                return  new ApiException(404, "Please Enter the name of the manager");
+            }
+
+        });
+
 
         //add a tenant
         post("/tenant","application/json ",(request, response) -> {
@@ -118,6 +135,18 @@ public class Main {
             }
         });
 
+        //get all tenants in the same Property
+        get("/tenants/:propertyName", "application/json", (req, res)->{
+            String propertyName = req.params(":propertyName");
+
+            if(tenantDao.getTenantsInAProperty(propertyName) != null){
+                return gson.toJson(tenantDao.getTenantsInAProperty(propertyName));
+            }else {
+                return new ApiException(404, "There are no tenants in the available property");
+            }
+
+        });
+
         //add a property
         post("/property","application/json ",(request, response) -> {
             Property property = gson.fromJson(request.body(), Property.class);
@@ -162,10 +191,10 @@ public class Main {
 
         exception(ApiException.class, (exc, req, res) -> {
             Map<String, Object> jsonMap = new HashMap<>();
-            jsonMap.put("status", ((ApiException) exc).getStatusCode());
-            jsonMap.put("errorMessage", ((ApiException) exc).getMessage());
+            jsonMap.put("status", exc.getStatusCode());
+            jsonMap.put("errorMessage", exc.getMessage());
             res.type("application/json"); //after does not run in case of an exception.
-            res.status(((ApiException) exc).getStatusCode()); //set the status
+            res.status(exc.getStatusCode()); //set the status
             res.body(gson.toJson(jsonMap));  //set the output.
         });
 
