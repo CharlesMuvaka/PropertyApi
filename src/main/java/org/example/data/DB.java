@@ -5,5 +5,5 @@ import org.sql2o.Sql2o;
 public class DB {
 
 //    public static Sql2o sql20 = new Sql2o("jdbc:postgresql://localhost:5432/my_property", "moringa", "Access");
-    public static Sql2o sql20 = new Sql2o("jdbc:postgresql://ec2-54-159-22-90.compute-1.amazonaws.com:5432/d6acpspnb6o7k2", "njwfwmgzzqpcfb", "09c1e9e079ab7a33c0c1cc1020341c6eee03c5fedf404af136395c863a364766");
+    public static Sql2o sql20 = new Sql2o("jdbc:postgresql://ec2-3-222-74-92.compute-1.amazonaws.com:5432/d7i913v3to34l4", "lbpuefhxitpycd", "612e0731f8637a1c0b762a8b00932a3afef12506169e3dbc1397b2fe508962dd");
 }
