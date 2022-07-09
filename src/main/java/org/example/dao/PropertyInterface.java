@@ -14,7 +14,9 @@ public interface PropertyInterface {
     Property getPropertyById(int id);
     List<Property> getAllProperties();
     //Update
+    void updateProperty(int id, Property property);
 
 
     //Delete
+    void deleteProperty(int id);
 }
