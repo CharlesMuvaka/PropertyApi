@@ -2,7 +2,6 @@ package org.example.data;
 
 import org.example.dao.PropertyInterface;
 import org.example.models.Property;
-import org.example.models.PropertyManager;
 import org.sql2o.Connection;
 
 import java.util.List;
@@ -10,13 +9,15 @@ import java.util.List;
 public class PropertyDao implements PropertyInterface {
     @Override
     public void addProperty(Property property) {
-        String query = "INSERT INTO property(property_name,manager_name) VALUES(:property_name,:manager_name)";
+        String query = "INSERT INTO property(property_name, property_location,manager_id) VALUES(:property_name, :property_location,:manager_id)";
         try(Connection conn = DB.sql20.open()){
-            property.id = (int) conn.createQuery(query,true)
-                    .addParameter("property_name", property.property_name)
-                    .addParameter("manager_name", property.manager_name)
+            int id = (int) conn.createQuery(query,true)
+                    .addParameter("property_name", property.getProperty_name())
+                    .addParameter("property_location", property.getProperty_location())
+                    .addParameter("manager_id", property.getManager_id())
                     .executeUpdate()
                     .getKey();
+            property.setId(id);
         }
     }
 
@@ -24,7 +25,7 @@ public class PropertyDao implements PropertyInterface {
     public Property getPropertyById(int id) {
         String query = "SELECT * FROM property WHERE id = :id";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).addParameter("id",id).executeAndFetchFirst(Property.class);
+            return conn.createQuery(query).addParameter("id",id).throwOnMappingFailure(false).executeAndFetchFirst(Property.class);
         }
 
     }
@@ -33,12 +34,35 @@ public class PropertyDao implements PropertyInterface {
     public List<Property> getAllProperties() {
         String query = " SELECT * FROM property";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).executeAndFetch(Property.class);
+            return conn.createQuery(query).throwOnMappingFailure(false).executeAndFetch(Property.class);
         }
 
     }
 
+    @Override
+    public void updateProperty(int id, Property property) {
+        String query = "UPDATE property SET property_name = :property_name, property_location = :property_location, manager_id = :manager_id WHERE id = :id";
+        try(Connection conn = DB.sql20.open()){
+            conn.createQuery(query)
+                    .addParameter("id", id)
+                    .addParameter("property_name", property.getProperty_name())
+                    .addParameter("property_location", property.getProperty_location())
+                    .addParameter("manager_id", property.getManager_id())
+                    .executeUpdate();
+        }
 
+    }
+
+    @Override
+    public void deleteProperty(int id) {
+        String query = "DELETE FROM property WHERE id = :id";
+        try(Connection conn = DB.sql20.open()){
+            conn.createQuery(query)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        }
+
+    }
 
 
 }
