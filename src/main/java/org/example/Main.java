@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import org.example.data.PropertyDao;
 import org.example.data.PropertyManagerDao;
 import org.example.data.TenantDao;
+import org.example.data.UnitDao;
 import org.example.exceptions.ApiException;
 import org.example.models.Property;
 import org.example.models.PropertyManager;
 import org.example.models.Tenant;
+import org.example.models.Unit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,24 +33,22 @@ public class Main {
         PropertyManagerDao propertyManagerDao = new PropertyManagerDao();
         TenantDao tenantDao = new TenantDao();
         PropertyDao propertyDao = new PropertyDao();
+        UnitDao unitDao = new UnitDao();
+
         Gson gson = new Gson();
 
 
         //add a property manager
-        post("/propertymanager","application/json ",(request, response) -> {
+        post("/propertyManager","application/json ",(request, response) -> {
 
             PropertyManager propertyManager = gson.fromJson(request.body(), PropertyManager.class);
 
-             if (propertyManager.manager_name == null){
-                throw new ApiException(404, "Please enter the name of the property manager");
-            }else if (propertyManager.phone_number == null){
-                throw new ApiException(404, "Please enter the phone number of the property manager");
-            }else if (propertyManager.email == null){
-                throw new ApiException(404, "Please enter the email address of the property manager");
-            }else if (propertyManager.property_name == null){
-                throw new ApiException(404, "Please enter the property name of the property manager");
-            }else if (propertyManager.property_description == null){
-                throw new ApiException(404, "Please enter the property description of the property");
+             if (propertyManager.getManager_name() == null){
+                throw new ApiException(401, "Please enter the name of the property manager");
+            }else if (propertyManager.getPhone_number() == null){
+                throw new ApiException(402, "Please enter the phone number of the property manager");
+            }else if (propertyManager.getEmail() == null){
+                throw new ApiException(403, "Please enter the email address of the property manager");
             }else{
                 propertyManagerDao.addPropertyManager(propertyManager);
                 response.status(201);
@@ -59,13 +59,13 @@ public class Main {
         //get all property managers
         get("/propertymanagers", "application/json", (req, res) -> { //accept a request in format JSON from an app
             if(propertyManagerDao.getAllPropertyManagers() == null){
-                throw new ApiException(404, "Oops, there are no property managers currently");
+                throw new ApiException(403, "Oops, there are no property managers currently");
             }
             return gson.toJson(propertyManagerDao.getAllPropertyManagers());//send it back to be displayed
         });
 
         //get property manager by id
-        get("/propertymanager/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+        get("/propertyManager/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
 
             try {
                 int id = Integer.parseInt(req.params(":id"));
@@ -84,20 +84,42 @@ public class Main {
         });
 
         //get all managers properties
-        get("/managerProperties/:managerName", "application/json", (req,res)->{
-            String managerName = req.params(":managerName");
+        get("/managerProperties/:id", "application/json", (req,res)->{
+            int id = Integer.parseInt(req.params(":id"));
 
-            if (managerName != null){
-                if (propertyManagerDao.propertyManagerProperties(managerName) !=null){
-                    return gson.toJson(propertyManagerDao.propertyManagerProperties(managerName));
+                if (propertyManagerDao.propertyManagerProperties(id) !=null){
+                    return gson.toJson(propertyManagerDao.propertyManagerProperties(id));
 
                 }else{
-                  return new ApiException(404, "The given manager is not available");
+                  return new ApiException(403, "The given manager is not available");
                 }
-            }else{
-                return  new ApiException(404, "Please Enter the name of the manager");
-            }
 
+        });
+
+        //updating a propertyManager
+        patch("/updatePropertyManager/:id", (req, res) -> {
+            PropertyManager manager = gson.fromJson(req.body(), PropertyManager.class);
+            int id = Integer.parseInt(req.params(":id"));
+            if (propertyManagerDao.getPropertyManagerById(id) == null) {
+                throw new ApiException(403, String.format("The article with id %s does not exist thus can't update", id));
+
+            } else {
+                manager.setId(id);
+                propertyManagerDao.update(id,manager);
+                return gson.toJson(manager);
+            }
+        });
+
+        //delete a property manager based on his id
+        delete("/propertyManager/:id", (req, res) -> {
+
+            int propertyManagerId = Integer.parseInt(req.params(":id"));
+            if (propertyManagerDao.getPropertyManagerById(propertyManagerId) == null) {
+                throw new ApiException(404, String.format("The Article with an ID of %s does not exist you cant delete it", propertyManagerId));
+            } else {
+                propertyManagerDao.deleteById(propertyManagerId);
+                return gson.toJson(propertyManagerDao.getAllPropertyManagers());
+            }
         });
 
 
@@ -106,11 +128,13 @@ public class Main {
             Tenant tenant = gson.fromJson(request.body(), Tenant.class);
 
             if (tenant.getTenant_name() == null){
-                throw new ApiException(404, "Please enter the name of the tenant");
+                throw new ApiException(400, "Please enter the name of the tenant");
             }else if (tenant.getTenant_email() == null){
-                throw new ApiException(404, "Please enter the email address of the tenant");
-            }else if (tenant.getProperty_name() == null){
-                throw new ApiException(404, "Please enter the property name  of the tenant");
+                throw new ApiException(401, "Please enter the email address of the tenant");
+            }else if (tenant.getTenant_phone() == null){
+                throw new ApiException(403, "Please enter the phone number  of the tenant");
+            }else if (tenant.getTenant_id() == null){
+                throw new ApiException(403, "Please enter the id number of the tenant");
             }else{
                 tenantDao.addTenant(tenant);
                 response.status(201);
@@ -147,25 +171,51 @@ public class Main {
         });
 
         //get all tenants in the same Property
-        get("/tenants/:propertyName", "application/json", (req, res)->{
-            String propertyName = req.params(":propertyName");
+        get("/tenants/:id", "application/json", (req, res)->{
+            int id = Integer.parseInt(req.params(":id"));
 
-            if(tenantDao.getTenantsInAProperty(propertyName) != null){
-                return gson.toJson(tenantDao.getTenantsInAProperty(propertyName));
+            if(tenantDao.getTenantsInAProperty(id) != null){
+                return gson.toJson(tenantDao.getTenantsInAProperty(id));
             }else {
                 return new ApiException(404, "There are no tenants in the available property");
             }
 
         });
 
+        //updating a tenant
+        patch("/updateTenant/:id", (req, res) -> {
+            Tenant tenant = gson.fromJson(req.body(), Tenant.class);
+            int id = Integer.parseInt(req.params(":id"));
+            if (tenantDao.getTenantById(id) == null) {
+                throw new ApiException(403, String.format("The article with id %s does not exist thus can't update", id));
+
+            } else {
+                tenant.setId(id);
+                tenantDao.updateTenant(id,tenant);
+                return gson.toJson(tenant);
+            }
+        });
+
+        //delete a tenant based on his id
+        delete("/tenant/:id", (req, res) -> {
+
+            int tenantId = Integer.parseInt(req.params(":id"));
+            if (tenantDao.getTenantById(tenantId) == null) {
+                throw new ApiException(404, String.format("The Article with an ID of %s does not exist you cant delete it", tenantId));
+            } else {
+                tenantDao.delete(tenantId);
+                return gson.toJson(tenantDao.getAllTenants());
+            }
+        });
+
         //add a property
         post("/property","application/json ",(request, response) -> {
             Property property = gson.fromJson(request.body(), Property.class);
 
-            if (property.property_name == null){
-                throw new ApiException(404, "Please enter the name of the property");
-            }else if (property.manager_name == null){
-                throw new ApiException(404, "Please enter the name of the property manager");
+            if (property.getProperty_name() == null){
+                throw new ApiException(401, "Please enter the name of the property");
+            }else if (property.getProperty_location() == null){
+                throw new ApiException(403, "Please enter the location of the property");
             }else {
                 propertyDao.addProperty(property);
                 response.status(201);
@@ -196,6 +246,113 @@ public class Main {
                 return gson.toJson(propertyDao.getAllProperties());//send it back to be displayed
             }else{
                 return new ApiException(404, "Oops there are no properties available");
+            }
+        });
+
+        //updating a property
+        patch("/updateProperty/:id", (req, res) -> {
+            Property property = gson.fromJson(req.body(), Property.class);
+            int id = Integer.parseInt(req.params(":id"));
+            if (propertyDao.getPropertyById(id) == null) {
+                throw new ApiException(403, String.format("The article with id %s does not exist thus can't update", id));
+
+            } else {
+                property.setId(id);
+                propertyDao.updateProperty(id,property);
+                return gson.toJson(property);
+            }
+        });
+
+        //delete a property based on his id
+        delete("/property/:id", (req, res) -> {
+
+            int propertyId = Integer.parseInt(req.params(":id"));
+            if (propertyDao.getPropertyById(propertyId) == null) {
+                throw new ApiException(404, String.format("The Article with an ID of %s does not exist you cant delete it", propertyId));
+            } else {
+                propertyDao.deleteProperty(propertyId);
+                return gson.toJson(propertyDao.getAllProperties());
+            }
+        });
+
+        //add a unit
+        post("/unit","application/json ",(request, response) -> {
+            Unit unit = gson.fromJson(request.body(), Unit.class);
+
+            if (unit.getUnitName() == null){
+                throw new ApiException(401, "Please enter the name of the unit");
+            }else if (unit.getUnit_rooms() == null){
+                throw new ApiException(403, "Please enter the number of the rooms of the unit");
+            }else {
+                unitDao.addUnit(unit);
+                response.status(201);
+                return gson.toJson(unit);
+            }
+        });
+
+        //get unit by id
+        get("/unit/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+
+            try{
+                int id = Integer.parseInt(req.params(":id"));
+                Unit unit = unitDao.getUnitById(id);
+                if (unit == null){
+                    throw new ApiException(402, "The unit with the given id doesn't exist");
+                }
+                return gson.toJson(unitDao.getUnitById(id));//send it back to be displayed
+
+            }catch (NumberFormatException nt){
+
+                return nt.getMessage();
+            }
+        });
+
+        //get all units
+        get("/units", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            if (unitDao.getAllUnits() != null){
+                return gson.toJson(unitDao.getAllUnits());//send it back to be displayed
+            }else{
+                return new ApiException(404, "Oops there are no properties available");
+            }
+        });
+
+        //get units in the same property
+        get("/unit/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+
+            int id = Integer.parseInt(req.params(":id"));
+
+                if (unitDao.getAllUnitsInSameProperty(id) !=null){
+                    return gson.toJson(unitDao.getAllUnitsInSameProperty(id));
+
+                }else{
+                    return new ApiException(401, "Oops there are no units available");
+                }
+
+        });
+
+        //updating a unit
+        patch("/updateUnit/:id", (req, res) -> {
+            Unit unit = gson.fromJson(req.body(), Unit.class);
+            int id = Integer.parseInt(req.params(":id"));
+            if (unitDao.getUnitById(id) == null) {
+                throw new ApiException(403, String.format("The article with id %s does not exist thus can't update", id));
+
+            } else {
+                unit.setId(id);
+                unitDao.updateUnit(id,unit);
+                return gson.toJson(unit);
+            }
+        });
+
+        //delete a unit based on his id
+        delete("/unit/:id", (req, res) -> {
+
+            int unitId = Integer.parseInt(req.params(":id"));
+            if (unitDao.getUnitById(unitId) == null) {
+                throw new ApiException(404, String.format("The Article with an ID of %s does not exist you cant delete it", unitId));
+            } else {
+                unitDao.deleteUnit(unitId);
+                return gson.toJson(unitDao.getAllUnits());
             }
         });
 
