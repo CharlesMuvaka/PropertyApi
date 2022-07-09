@@ -12,11 +12,12 @@ public interface TenantInterface {
     //Read
     Tenant getTenantById(int id);
     List<Tenant> getAllTenants();
-    List<Tenant> getTenantsInAProperty(String propertyNAme);
+    List<Tenant> getTenantsInAProperty(int id);
 
     //Update
-    void updateTenant(Tenant tenant);
+    void updateTenant(int id, Tenant tenant);
 
 
     //Delete
+    void delete(int id);
 }
