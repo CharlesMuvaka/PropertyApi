@@ -5,12 +5,12 @@ import java.util.Objects;
 public class Unit {
 
 
-    private int id, property_id;
-    private String unit_name,unit_rooms;
+    private int id;
+    private String unit_name,unit_rooms, property_name;
 
-    public Unit(String unitName, int property_name, String unit_rooms) {
+    public Unit(String unitName, String property_name, String unit_rooms) {
         this.unit_name = unitName;
-        this.property_id = property_name;
+        this.property_name = property_name;
         this.unit_rooms = unit_rooms;
     }
 
@@ -19,12 +19,12 @@ public class Unit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Unit unit = (Unit) o;
-        return getProperty_id() == unit.getProperty_id() && Objects.equals(getUnit_name(), unit.getUnit_name()) && Objects.equals(getUnit_rooms(), unit.getUnit_rooms());
+        return Objects.equals(getUnit_name(), unit.getUnit_name()) && Objects.equals(getUnit_rooms(), unit.getUnit_rooms()) && Objects.equals(getProperty_name(), unit.getProperty_name());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProperty_id(), getUnit_name(), getUnit_rooms());
+        return Objects.hash(getUnit_name(), getUnit_rooms(), getProperty_name());
     }
 
     public int getId() {
@@ -43,12 +43,12 @@ public class Unit {
         this.unit_name = unitName;
     }
 
-    public int getProperty_id() {
-        return property_id;
+    public String getProperty_name() {
+        return property_name;
     }
 
-    public void setProperty_id(int property_id) {
-        this.property_id = property_id;
+    public void setProperty_name(String property_name) {
+        this.property_name = property_name;
     }
 
     public String getUnit_name() {

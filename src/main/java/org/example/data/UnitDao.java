@@ -10,11 +10,11 @@ public class UnitDao implements UnitInterface {
 
     @Override
     public void addUnit(Unit unit) {
-        String query = "INSERT INTO units(unit_name, property_id, unit_rooms) VALUES(:unit_name,:property_id,:unit_rooms)";
+        String query = "INSERT INTO units(unit_name, property_name, unit_rooms) VALUES(:unit_name,:property_name,:unit_rooms)";
         try(Connection conn = DB.sql20.open()){
             int id = (int) conn.createQuery(query,true)
                     .addParameter("unit_name", unit.getUnitName())
-                    .addParameter("property_id", unit.getProperty_id())
+                    .addParameter("property_name", unit.getProperty_name())
                     .addParameter("unit_rooms", unit.getUnit_rooms())
                     .executeUpdate()
                     .getKey();
@@ -41,21 +41,21 @@ public class UnitDao implements UnitInterface {
     }
 
     @Override
-    public List<Unit> getAllUnitsInSameProperty(int id) {
-        String query = "SELECT * FROM units WHERE property_id = :id";
+    public List<Unit> getAllUnitsInSameProperty(String name) {
+        String query = "SELECT * FROM units WHERE property_name = :name";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).throwOnMappingFailure(false).addParameter("id", id).executeAndFetch(Unit.class);
+            return conn.createQuery(query).throwOnMappingFailure(false).addParameter("name", name).executeAndFetch(Unit.class);
         }
 
     }
 
     @Override
     public void updateUnit(int id, Unit unit) {
-        String query = "UPDATE units SET unit_name = :unit_name, property_id = :property_id, unit_rooms = :unit_rooms WHERE id = :id";
+        String query = "UPDATE units SET unit_name = :unit_name, property_name = :property_name, unit_rooms = :unit_rooms WHERE id = :id";
         try(Connection conn = DB.sql20.open()){
             conn.createQuery(query)
                     .addParameter("unitName", unit.getUnitName())
-                    .addParameter("property_id", unit.getProperty_id())
+                    .addParameter("property_name", unit.getProperty_name())
                     .addParameter("unit_rooms", unit.getUnit_rooms())
                     .addParameter("id", id)
                     .executeUpdate();

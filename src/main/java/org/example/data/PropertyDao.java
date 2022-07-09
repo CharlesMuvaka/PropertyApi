@@ -9,12 +9,12 @@ import java.util.List;
 public class PropertyDao implements PropertyInterface {
     @Override
     public void addProperty(Property property) {
-        String query = "INSERT INTO property(property_name, property_location,manager_id) VALUES(:property_name, :property_location,:manager_id)";
+        String query = "INSERT INTO property(property_name, property_location,manager_name) VALUES(:property_name, :property_location,:manager_name)";
         try(Connection conn = DB.sql20.open()){
             int id = (int) conn.createQuery(query,true)
                     .addParameter("property_name", property.getProperty_name())
                     .addParameter("property_location", property.getProperty_location())
-                    .addParameter("manager_id", property.getManager_id())
+                    .addParameter("manager_name", property.getManager_name())
                     .executeUpdate()
                     .getKey();
             property.setId(id);
@@ -41,13 +41,13 @@ public class PropertyDao implements PropertyInterface {
 
     @Override
     public void updateProperty(int id, Property property) {
-        String query = "UPDATE property SET property_name = :property_name, property_location = :property_location, manager_id = :manager_id WHERE id = :id";
+        String query = "UPDATE property SET property_name = :property_name, property_location = :property_location, manager_name = :manager_name WHERE id = :id";
         try(Connection conn = DB.sql20.open()){
             conn.createQuery(query)
                     .addParameter("id", id)
                     .addParameter("property_name", property.getProperty_name())
                     .addParameter("property_location", property.getProperty_location())
-                    .addParameter("manager_id", property.getManager_id())
+                    .addParameter("manager_name", property.getManager_name())
                     .executeUpdate();
         }
 

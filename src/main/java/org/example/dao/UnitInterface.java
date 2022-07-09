@@ -12,7 +12,7 @@ public interface UnitInterface {
     //Read
     Unit getUnitById(int id);
     List<Unit> getAllUnits();
-    List<Unit> getAllUnitsInSameProperty(int id);
+    List<Unit> getAllUnitsInSameProperty(String name);
 
     //Update
     void updateUnit(int id, Unit unit);

@@ -42,10 +42,10 @@ public class PropertyManagerDao implements PropertyManagerInterface {
     }
 
     @Override
-    public List<Property> propertyManagerProperties(int id) {
-        String query = "SELECT * FROM property WHERE id = :id";
+    public List<Property> propertyManagerProperties(String name) {
+        String query = "SELECT * FROM property WHERE manager_name = :name";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).addParameter("id", id).throwOnMappingFailure(false).executeAndFetch(Property.class);
+            return conn.createQuery(query).addParameter("name", name).throwOnMappingFailure(false).executeAndFetch(Property.class);
         }
 
     }

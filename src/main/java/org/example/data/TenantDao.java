@@ -10,15 +10,15 @@ import java.util.List;
 public class TenantDao implements TenantInterface {
     @Override
     public void addTenant(Tenant tenant) {
-        String query = "INSERT INTO tenant(tenant_name, tenant_email,tenant_phone,tenant_id, property_id,unit_id, joined) VALUES(:tenant_name,:tenant_email,:tenant_phone,:tenant_id,:property_id,:unit_id, now())";
+        String query = "INSERT INTO tenant(tenant_name, tenant_email,tenant_phone,tenant_id, property_name,unit_name, joined) VALUES(:tenant_name,:tenant_email,:tenant_phone,:tenant_id,:property_name,:unit_name, now())";
         try(Connection conn = DB.sql20.open()){
             int id = (int) conn.createQuery(query,true)
                     .addParameter("tenant_name", tenant.getTenant_name())
                     .addParameter("tenant_email", tenant.getTenant_email())
                     .addParameter("tenant_phone", tenant.getTenant_phone())
                     .addParameter("tenant_id", tenant.getTenant_id())
-                    .addParameter("property_id", tenant.getProperty_id())
-                    .addParameter("unit_id", tenant.getUnit_id())
+                    .addParameter("property_name", tenant.getProperty_name())
+                    .addParameter("unit_name", tenant.getUnit_name())
                     .executeUpdate()
                     .getKey();
             tenant.setId(id);
@@ -46,17 +46,17 @@ public class TenantDao implements TenantInterface {
     }
 
     @Override
-    public List<Tenant> getTenantsInAProperty(int id) {
-        String query  = "SELECT * FROM tenant WHERE property_id = :id";
+    public List<Tenant> getTenantsInAProperty(String name) {
+        String query  = "SELECT * FROM tenant WHERE property_name = :name";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).addParameter("id", id).throwOnMappingFailure(false).executeAndFetch(Tenant.class);
+            return conn.createQuery(query).addParameter("name", name).throwOnMappingFailure(false).executeAndFetch(Tenant.class);
         }
 
     }
 
     @Override
     public void updateTenant(int id,Tenant tenant) {
-        String query = "UPDATE tenant SET tenant_name = :tenant_name, tenant_email = :tenant_email, tenant_phone = :tenant_phone, tenant_id = :tenant_id, property_id = :property_id, unit_id = :unit_id WHERE id = :id";
+        String query = "UPDATE tenant SET tenant_name = :tenant_name, tenant_email = :tenant_email, tenant_phone = :tenant_phone, tenant_id = :tenant_id, property_name = :property_name, unit_name= :unit_name WHERE id = :id";
         try(Connection conn = DB.sql20.open()){
             conn.createQuery(query)
                     .addParameter("id", id)
@@ -64,8 +64,8 @@ public class TenantDao implements TenantInterface {
                     .addParameter("tenant_email", tenant.getTenant_email())
                     .addParameter("tenant_phone", tenant.getTenant_phone())
                     .addParameter("tenant_id", tenant.getTenant_id())
-                    .addParameter("property_id", tenant.getProperty_id())
-                    .addParameter("unit_id", tenant.getUnit_id())
+                    .addParameter("property_name", tenant.getProperty_name())
+                    .addParameter("unit_name", tenant.getUnit_name())
                     .executeUpdate();
         }
 

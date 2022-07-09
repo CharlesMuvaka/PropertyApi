@@ -84,11 +84,11 @@ public class Main {
         });
 
         //get all managers properties
-        get("/managerProperties/:id", "application/json", (req,res)->{
-            int id = Integer.parseInt(req.params(":id"));
+        get("/managerProperties/:name", "application/json", (req,res)->{
+            String name = req.params(":name");
 
-                if (propertyManagerDao.propertyManagerProperties(id) !=null){
-                    return gson.toJson(propertyManagerDao.propertyManagerProperties(id));
+                if (propertyManagerDao.propertyManagerProperties(name) !=null){
+                    return gson.toJson(propertyManagerDao.propertyManagerProperties(name));
 
                 }else{
                   return new ApiException(403, "The given manager is not available");
@@ -171,11 +171,11 @@ public class Main {
         });
 
         //get all tenants in the same Property
-        get("/tenants/:id", "application/json", (req, res)->{
-            int id = Integer.parseInt(req.params(":id"));
+        get("/tenants/:name", "application/json", (req, res)->{
+            String name = req.params(":name");
 
-            if(tenantDao.getTenantsInAProperty(id) != null){
-                return gson.toJson(tenantDao.getTenantsInAProperty(id));
+            if(tenantDao.getTenantsInAProperty(name) != null){
+                return gson.toJson(tenantDao.getTenantsInAProperty(name));
             }else {
                 return new ApiException(404, "There are no tenants in the available property");
             }
@@ -317,12 +317,12 @@ public class Main {
         });
 
         //get units in the same property
-        get("/unit/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+        get("/unit/:name", "application/json", (req, res) -> { //accept a request in format JSON from an app
 
-            int id = Integer.parseInt(req.params(":id"));
+            String name = req.params(":name");
 
-                if (unitDao.getAllUnitsInSameProperty(id) !=null){
-                    return gson.toJson(unitDao.getAllUnitsInSameProperty(id));
+                if (unitDao.getAllUnitsInSameProperty(name) !=null){
+                    return gson.toJson(unitDao.getAllUnitsInSameProperty(name));
 
                 }else{
                     return new ApiException(401, "Oops there are no units available");

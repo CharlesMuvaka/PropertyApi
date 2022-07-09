@@ -11,7 +11,7 @@ CREATE TABLE property(
 id serial PRIMARY KEY,
 property_name VARCHAR NOT NULL,
 property_location VARCHAR NOT NULL,
-manager_id INTEGER NOT NULL
+manager_name VARCHAR NOT NULL
 );
 
 CREATE TABLE property_managers(
@@ -27,15 +27,15 @@ tenant_name VARCHAR NOT NULL,
 tenant_email VARCHAR NOT NULL,
 tenant_phone VARCHAR NOT NULL,
 tenant_id VARCHAR NOT NULL,
-property_id INTEGER NOT NULL,
-unit_id INTEGER NOT NULL,
+property_name VARCHAR NOT NULL,
+unit_name VARCHAR NOT NULL,
 joined TIMESTAMP
 );
 
 CREATE TABLE units(
 id serial PRIMARY KEY,
 unit_name VARCHAR NOT NULL,
-property_id INTEGER NOT NULL,
+property_name VARCHAR NOT NULL,
 unit_rooms VARCHAR NOT NULL
 );
 

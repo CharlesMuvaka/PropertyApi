@@ -14,7 +14,7 @@ public interface PropertyManagerInterface {
     //Read
     PropertyManager getPropertyManagerById(int id);
     List<PropertyManager> getAllPropertyManagers();
-    List<Property> propertyManagerProperties(int id);
+    List<Property> propertyManagerProperties(String name);
 
     //Update
     void update(int id, PropertyManager manager);

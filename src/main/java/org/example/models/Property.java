@@ -3,12 +3,12 @@ package org.example.models;
 import java.util.Objects;
 
 public class Property {
-    private int id, manager_id;
-    private String property_name, property_location;
+    private int id;
+    private String property_name, property_location, manager_name;
 
-    public Property(String property_name, int manager_name, String location) {
+    public Property(String property_name, String manager_name, String location) {
         this.property_name = property_name;
-        this.manager_id = manager_name;
+        this.manager_name = manager_name;
         this.property_location = location;
     }
 
@@ -17,12 +17,12 @@ public class Property {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Property property = (Property) o;
-        return getManager_id() == property.getManager_id() && Objects.equals(getProperty_name(), property.getProperty_name()) && Objects.equals(getProperty_location(), property.getProperty_location());
+        return Objects.equals(getProperty_name(), property.getProperty_name()) && Objects.equals(getProperty_location(), property.getProperty_location()) && Objects.equals(getManager_name(), property.getManager_name());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getManager_id(), getProperty_name(), getProperty_location());
+        return Objects.hash(getProperty_name(), getProperty_location(), getManager_name());
     }
 
     public int getId() {
@@ -41,12 +41,12 @@ public class Property {
         this.property_name = property_name;
     }
 
-    public int getManager_id() {
-        return manager_id;
+    public String getManager_name() {
+        return manager_name;
     }
 
-    public void setManager_id(int manager_id) {
-        this.manager_id = manager_id;
+    public void setManager_name(String manager_name) {
+        this.manager_name = manager_name;
     }
 
     public String getProperty_location() {

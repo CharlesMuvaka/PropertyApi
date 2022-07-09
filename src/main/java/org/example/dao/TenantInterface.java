@@ -12,7 +12,7 @@ public interface TenantInterface {
     //Read
     Tenant getTenantById(int id);
     List<Tenant> getAllTenants();
-    List<Tenant> getTenantsInAProperty(int id);
+    List<Tenant> getTenantsInAProperty(String name);
 
     //Update
     void updateTenant(int id, Tenant tenant);
