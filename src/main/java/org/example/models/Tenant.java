@@ -1,16 +1,25 @@
 package org.example.models;
+import java.sql.Timestamp;
 
+
+import java.text.DateFormat;
 import java.util.Objects;
 
 public class Tenant {
 
-    public int id;
-    public String tenant_name,tenant_email, property_name;
+    private int id, property_id, unit_id;
+    private String tenant_name,tenant_email, tenant_phone, tenant_id, join_date;
+    private Timestamp joined;
 
-    public Tenant(String tenant_name, String tenant_email, String property_name) {
+
+
+    public Tenant(String tenant_name, String tenant_email, String tenant_phone, String tenant_id, int property_name, int unit_name) {
         this.tenant_name = tenant_name;
         this.tenant_email = tenant_email;
-        this.property_name = property_name;
+        this.tenant_phone = tenant_phone;
+        this.tenant_id = tenant_id;
+        this.property_id = property_name;
+        this.unit_id = unit_name;
     }
 
     @Override
@@ -18,12 +27,12 @@ public class Tenant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tenant tenant = (Tenant) o;
-        return Objects.equals(tenant_name, tenant.tenant_name) && Objects.equals(tenant_email, tenant.tenant_email) && Objects.equals(property_name, tenant.property_name);
+        return getProperty_id() == tenant.getProperty_id() && getUnit_id() == tenant.getUnit_id() && Objects.equals(getTenant_name(), tenant.getTenant_name()) && Objects.equals(getTenant_email(), tenant.getTenant_email()) && Objects.equals(getTenant_phone(), tenant.getTenant_phone()) && Objects.equals(getTenant_id(), tenant.getTenant_id()) && Objects.equals(getJoin_date(), tenant.getJoin_date()) && Objects.equals(getJoined(), tenant.getJoined());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tenant_name, tenant_email, property_name);
+        return Objects.hash(getProperty_id(), getUnit_id(), getTenant_name(), getTenant_email(), getTenant_phone(), getTenant_id(), getJoin_date(), getJoined());
     }
 
     public int getId() {
@@ -50,11 +59,52 @@ public class Tenant {
         this.tenant_email = tenant_email;
     }
 
-    public String getProperty_name() {
-        return property_name;
+    public String getTenant_phone() {
+        return tenant_phone;
     }
 
-    public void setProperty_name(String property_name) {
-        this.property_name = property_name;
+    public void setTenant_phone(String tenant_phone) {
+        this.tenant_phone = tenant_phone;
+    }
+
+    public String getTenant_id() {
+        return tenant_id;
+    }
+
+    public void setTenant_id(String tenant_id) {
+        this.tenant_id = tenant_id;
+    }
+
+    public int getProperty_id() {
+        return property_id;
+    }
+
+    public void setProperty_id(int property_id) {
+        this.property_id = property_id;
+    }
+
+    public int getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(int unit_id) {
+        this.unit_id = unit_id;
+    }
+
+    public Timestamp getJoined() {
+        return joined;
+    }
+
+    public void setJoined(Timestamp joined) {
+        this.joined = joined;
+    }
+
+    public String getJoin_date() {
+        join_date = DateFormat.getDateTimeInstance().format(joined);
+        return join_date;
+    }
+
+    public void setJoin_date(String join_date) {
+        this.join_date = join_date;
     }
 }
