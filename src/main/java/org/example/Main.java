@@ -317,7 +317,7 @@ public class Main {
         });
 
         //get units in the same property
-        get("/unit/:name", "application/json", (req, res) -> { //accept a request in format JSON from an app
+        get("/units/:name", "application/json", (req, res) -> { //accept a request in format JSON from an app
 
             String name = req.params(":name");
 
