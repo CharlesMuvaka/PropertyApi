@@ -44,7 +44,7 @@ public class UnitDao implements UnitInterface {
     public List<Unit> getAllUnitsInSameProperty(String name) {
         String query = "SELECT * FROM units WHERE property_name = :name";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).throwOnMappingFailure(false).addParameter("name", name).executeAndFetch(Unit.class);
+            return conn.createQuery(query).addParameter("name", name).throwOnMappingFailure(false).executeAndFetch(Unit.class);
         }
 
     }
