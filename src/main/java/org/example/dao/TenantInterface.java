@@ -13,6 +13,7 @@ public interface TenantInterface {
     Tenant getTenantById(int id);
     List<Tenant> getAllTenants();
     List<Tenant> getTenantsInAProperty(String name);
+    List<Tenant> getTenantsWIthSameManager(String name);
 
     //Update
     void updateTenant(int id, Tenant tenant);

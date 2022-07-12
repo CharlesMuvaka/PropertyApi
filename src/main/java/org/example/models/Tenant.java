@@ -8,18 +8,18 @@ import java.util.Objects;
 public class Tenant {
 
     private int id;
-    private String tenant_name,tenant_email, tenant_phone, tenant_id, property_name, unit_name, join_date;
+    private String tenant_name,tenant_email, tenant_phone, tenant_id, property_name, unit_name,manager_name, join_date;
     private Timestamp joined;
 
 
-
-    public Tenant(String tenant_name, String tenant_email, String tenant_phone, String tenant_id, String property_name, String unit_name) {
+    public Tenant(String tenant_name, String tenant_email, String tenant_phone, String tenant_id, String property_name, String unit_name, String manager_name) {
         this.tenant_name = tenant_name;
         this.tenant_email = tenant_email;
         this.tenant_phone = tenant_phone;
         this.tenant_id = tenant_id;
         this.property_name = property_name;
         this.unit_name = unit_name;
+        this.manager_name = manager_name;
     }
 
     @Override
@@ -27,12 +27,20 @@ public class Tenant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tenant tenant = (Tenant) o;
-        return Objects.equals(getTenant_name(), tenant.getTenant_name()) && Objects.equals(getTenant_email(), tenant.getTenant_email()) && Objects.equals(getTenant_phone(), tenant.getTenant_phone()) && Objects.equals(getTenant_id(), tenant.getTenant_id()) && Objects.equals(getProperty_name(), tenant.getProperty_name()) && Objects.equals(getUnit_name(), tenant.getUnit_name()) && Objects.equals(getJoin_date(), tenant.getJoin_date()) && Objects.equals(getJoined(), tenant.getJoined());
+        return Objects.equals(getTenant_name(), tenant.getTenant_name()) && Objects.equals(getTenant_email(), tenant.getTenant_email()) && Objects.equals(getTenant_phone(), tenant.getTenant_phone()) && Objects.equals(getTenant_id(), tenant.getTenant_id()) && Objects.equals(getProperty_name(), tenant.getProperty_name()) && Objects.equals(getUnit_name(), tenant.getUnit_name()) && Objects.equals(getManager_name(), tenant.getManager_name()) && Objects.equals(getJoin_date(), tenant.getJoin_date()) && Objects.equals(getJoined(), tenant.getJoined());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTenant_name(), getTenant_email(), getTenant_phone(), getTenant_id(), getProperty_name(), getUnit_name(), getJoin_date(), getJoined());
+        return Objects.hash(getTenant_name(), getTenant_email(), getTenant_phone(), getTenant_id(), getProperty_name(), getUnit_name(), getManager_name(), getJoin_date(), getJoined());
+    }
+
+    public String getManager_name() {
+        return manager_name;
+    }
+
+    public void setManager_name(String manager_name) {
+        this.manager_name = manager_name;
     }
 
     public int getId() {

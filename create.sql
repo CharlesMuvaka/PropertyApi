@@ -1,9 +1,12 @@
 CREATE DATABASE my_property;
 \c
-CREATE TABLE maintenance_quest(
-quest_id serial PRIMARY KEY,
+CREATE TABLE defects(
+id serial PRIMARY KEY,
 description VARCHAR NOT NULL,
-quest_url VARCHAR NOT NULL,
+tenant_id VARCHAR NOT NULL,
+string_uri VARCHAR NOT NULL,
+unit_name VARCHAR NOT NULL,
+manager_name VARCHAR NOT NULL,
 property_name VARCHAR NOT NULL
 );
 
@@ -29,6 +32,7 @@ tenant_phone VARCHAR NOT NULL,
 tenant_id VARCHAR NOT NULL,
 property_name VARCHAR NOT NULL,
 unit_name VARCHAR NOT NULL,
+manager_name VARCHAR NOT NULL,
 joined TIMESTAMP
 );
 

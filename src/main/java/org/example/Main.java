@@ -1,15 +1,9 @@
 package org.example;
 
 import com.google.gson.Gson;
-import org.example.data.PropertyDao;
-import org.example.data.PropertyManagerDao;
-import org.example.data.TenantDao;
-import org.example.data.UnitDao;
+import org.example.data.*;
 import org.example.exceptions.ApiException;
-import org.example.models.Property;
-import org.example.models.PropertyManager;
-import org.example.models.Tenant;
-import org.example.models.Unit;
+import org.example.models.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +28,7 @@ public class Main {
         TenantDao tenantDao = new TenantDao();
         PropertyDao propertyDao = new PropertyDao();
         UnitDao unitDao = new UnitDao();
+        DefectDao dao = new DefectDao();
 
         Gson gson = new Gson();
 
@@ -355,6 +350,80 @@ public class Main {
                 return gson.toJson(unitDao.getAllUnits());
             }
         });
+
+        //add a defect
+        post("/defect","application/json ",(request, response) -> {
+            Defect defect = gson.fromJson(request.body(), Defect.class);
+
+            if (defect.getDescription() == null){
+                throw new ApiException(401, "Please enter the description of the defect");
+            }else if (defect.getUnit_name() == null){
+                throw new ApiException(403, "Please enter the name of the unit the defect is associated with");
+            }else if (defect.getTenant_id() == null){
+                throw new ApiException(403, "Please enter the person associated with the defect");
+            }else if (defect.getManager_name() == null){
+                throw new ApiException(403, "Please enter the person associated with the defect");
+            }else if (defect.getProperty_name() == null){
+                throw new ApiException(403, "Please enter the property associated with the defect");
+            }else if (defect.getString_uri() == null){
+                throw new ApiException(403, "Please enter the image associated with the defect");
+            }else {
+                dao.addDefect(defect);
+                response.status(201);
+                return gson.toJson(defect);
+            }
+        });
+
+        //get defect by id
+        get("/defect/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+
+            try{
+                int id = Integer.parseInt(req.params(":id"));
+                Defect defect = dao.getDefectById(id);
+                if (defect == null){
+                    throw new ApiException(404, "The property with the given id doesn't exist");
+                }
+                return gson.toJson(dao.getDefectById(id));//send it back to be displayed
+
+            }catch (NumberFormatException nt){
+
+                return nt.getMessage();
+            }
+        });
+
+        //get all defects
+        get("/defects", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            if (dao.getAllDefects() != null){
+                return gson.toJson(dao.getAllDefects());//send it back to be displayed
+            }else{
+                return new ApiException(404, "Oops there are no properties available");
+            }
+        });
+
+        //get all defects of the same manager
+        get("/defects/:managerName", "application/json", (req, res)->{
+            String name = req.params(":managerName");
+
+            if(dao.getDefectsOfSameManager(name) != null){
+                return gson.toJson(dao.getDefectsOfSameManager(name));
+            }else {
+                return new ApiException(404, "There are no tenants in the available property");
+            }
+
+        });
+
+        //get all defects of the same property
+        get("/Defects/:propertyName", "application/json", (req, res)->{
+            String name = req.params(":propertyName");
+
+            if(dao.getDefectsOfSameProperty(name) == null){
+                return new ApiException(404, "There are no tenants in the available property");
+
+            }else {
+                return gson.toJson(dao.getDefectsOfSameProperty(name));
+            }
+        });
+
 
 
         exception(ApiException.class, (exc, req, res) -> {
