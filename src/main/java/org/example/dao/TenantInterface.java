@@ -11,6 +11,7 @@ public interface TenantInterface {
 
     //Read
     Tenant getTenantById(int id);
+    Tenant getTenantByUnitName(String name);
     List<Tenant> getAllTenants();
     List<Tenant> getTenantsInAProperty(String name);
     List<Tenant> getTenantsWIthSameManager(String name);

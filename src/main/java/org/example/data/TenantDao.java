@@ -36,6 +36,14 @@ public class TenantDao implements TenantInterface {
     }
 
     @Override
+    public Tenant getTenantByUnitName(String name) {
+        String query = "SELECT * FROM tenant WHERE name = :tenant_id";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).addParameter("name",name).executeAndFetchFirst(Tenant.class);
+        }
+    }
+
+    @Override
     public List<Tenant> getAllTenants() {
         String query = "SELECT * FROM tenant";
         try(Connection conn = DB.sql20.open()){
