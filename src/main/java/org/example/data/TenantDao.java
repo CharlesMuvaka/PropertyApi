@@ -10,7 +10,7 @@ import java.util.List;
 public class TenantDao implements TenantInterface {
     @Override
     public void addTenant(Tenant tenant) {
-        String query = "INSERT INTO tenant(tenant_name, tenant_email,tenant_phone,tenant_id, property_name,unit_name,manager_name, joined) VALUES(:tenant_name,:tenant_email,:tenant_phone,:tenant_id,:property_name,:unit_name,:manager_name now())";
+        String query = "INSERT INTO tenant(tenant_name, tenant_email,tenant_phone,tenant_id, property_name,unit_name,manager_name, joined) VALUES(:tenant_name,:tenant_email,:tenant_phone,:tenant_id,:property_name,:unit_name,:manager_name, now())";
         try(Connection conn = DB.sql20.open()){
             int id = (int) conn.createQuery(query,true)
                     .addParameter("tenant_name", tenant.getTenant_name())
@@ -30,16 +30,16 @@ public class TenantDao implements TenantInterface {
     public Tenant getTenantById(int id) {
         String query = "SELECT * FROM tenant WHERE id = :id";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).addParameter("id",id).executeAndFetchFirst(Tenant.class);
+            return conn.createQuery(query).addParameter("id",id).throwOnMappingFailure(false).executeAndFetchFirst(Tenant.class);
         }
 
     }
 
     @Override
     public Tenant getTenantByUnitName(String name) {
-        String query = "SELECT * FROM tenant WHERE name = :tenant_id";
+        String query = "SELECT * FROM tenant WHERE unit_name = :name";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).addParameter("name",name).executeAndFetchFirst(Tenant.class);
+            return conn.createQuery(query).addParameter("name",name).throwOnMappingFailure(false).executeAndFetchFirst(Tenant.class);
         }
     }
 
@@ -47,7 +47,7 @@ public class TenantDao implements TenantInterface {
     public List<Tenant> getAllTenants() {
         String query = "SELECT * FROM tenant";
         try(Connection conn = DB.sql20.open()){
-            return conn.createQuery(query).executeAndFetch(Tenant.class);
+            return conn.createQuery(query).throwOnMappingFailure(false).executeAndFetch(Tenant.class);
         }catch (Sql2oException ex){
             System.out.println(ex.fillInStackTrace().getMessage());
         }

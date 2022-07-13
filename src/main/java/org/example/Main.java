@@ -155,6 +155,17 @@ public class Main {
                 return nfe.getMessage();
             }
         });
+        //get tenant in a unit
+        get("/singleTenant/:name", "application/json", (req, res)->{
+            String name = req.params(":name");
+
+            if(tenantDao.getTenantByUnitName(name) != null){
+                return gson.toJson(tenantDao.getTenantByUnitName(name));
+            }else {
+                return new ApiException(404, "There are no tenants in the available property");
+            }
+
+        });
 
         //get all tenants
         get("/tenants", "application/json", (req, res) -> { //accept a request in format JSON from an app
@@ -171,6 +182,18 @@ public class Main {
 
             if(tenantDao.getTenantsInAProperty(name) != null){
                 return gson.toJson(tenantDao.getTenantsInAProperty(name));
+            }else {
+                return new ApiException(404, "There are no tenants in the available property");
+            }
+
+        });
+
+        //get all tenants of the same manager
+        get("/Tenants/:name", "application/json", (req, res)->{
+            String name = req.params(":name");
+
+            if(tenantDao.getTenantsWIthSameManager(name) != null){
+                return gson.toJson(tenantDao.getTenantsWIthSameManager(name));
             }else {
                 return new ApiException(404, "There are no tenants in the available property");
             }
