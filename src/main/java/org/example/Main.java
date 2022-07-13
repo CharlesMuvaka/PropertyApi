@@ -29,6 +29,7 @@ public class Main {
         PropertyDao propertyDao = new PropertyDao();
         UnitDao unitDao = new UnitDao();
         DefectDao dao = new DefectDao();
+        DoneDefectDao doneDefectDao = new DoneDefectDao();
 
         Gson gson = new Gson();
 
@@ -456,6 +457,81 @@ public class Main {
 
             }else {
                 return gson.toJson(dao.getDefectsByTenantId(id));
+            }
+        });
+
+        //add a done defect
+        post("/doneDefect","application/json ",(request, response) -> {
+            DoneDefect defect = gson.fromJson(request.body(), DoneDefect.class);
+
+            if (defect.getName() == null){
+                throw new ApiException(401, "Please enter the name of the defect");
+            }else if (defect.getUri() == null){
+                throw new ApiException(403, "Please enter the image the defect is associated with");
+            }else if (defect.getTenant_id() == null){
+                throw new ApiException(403, "Please enter the person associated with the defect");
+            }else if (defect.getManager_name() == null){
+                throw new ApiException(403, "Please enter the person associated with the defect");
+            }else if (defect.getContactor_name() == null){
+                throw new ApiException(403, "Please enter the contractor allocated with the defect");
+            }else if (defect.getContractor_phone() == null){
+                throw new ApiException(403, "Please enter the phone of the contractor");
+            }else if (defect.getContractor_location() == null){
+                throw new ApiException(403, "Please enter the location of the contractor");
+            }else {
+                doneDefectDao.addDoneDefect(defect);
+                response.status(201);
+                return gson.toJson(defect);
+            }
+        });
+
+        //get done defect by id
+        get("/DoneDefect/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+
+            try{
+                int id = Integer.parseInt(req.params(":id"));
+                DoneDefect defect = doneDefectDao.getDefectById(id);
+                if (defect == null){
+                    throw new ApiException(404, "The property with the given id doesn't exist");
+                }
+                return gson.toJson(doneDefectDao.getDefectById(id));//send it back to be displayed
+
+            }catch (NumberFormatException nt){
+
+                return nt.getMessage();
+            }
+        });
+
+        //get all done defects
+        get("/doneDefects", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            if (doneDefectDao.getAllDefects() != null){
+                return gson.toJson(doneDefectDao.getAllDefects());//send it back to be displayed
+            }else{
+                return new ApiException(404, "Oops there are no properties available");
+            }
+        });
+
+        //get all done defects of a tenant
+        get("/doneDefects/:tenantId", "application/json", (req, res)->{
+            String name = req.params(":tenantId");
+
+            if(doneDefectDao.getTenantDoneDefects(name) != null){
+                return gson.toJson(doneDefectDao.getTenantDoneDefects(name));
+            }else {
+                return new ApiException(404, "There are no tenants in the available property");
+            }
+
+        });
+
+        //get all done defects of the manager
+        get("/doneDefect/:managerName", "application/json", (req, res)->{
+            String name = req.params(":managerName");
+
+            if(doneDefectDao.getManagerDoneDefects(name) == null){
+                return new ApiException(404, "There are no tenants in the available property");
+
+            }else {
+                return gson.toJson(doneDefectDao.getManagerDoneDefects(name));
             }
         });
 

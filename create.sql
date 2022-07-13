@@ -7,7 +7,20 @@ tenant_id VARCHAR NOT NULL,
 string_uri VARCHAR NOT NULL,
 unit_name VARCHAR NOT NULL,
 manager_name VARCHAR NOT NULL,
-property_name VARCHAR NOT NULL
+property_name VARCHAR NOT NULL,
+created_at timestamp
+);
+
+CREATE TABLE done_defects(
+id serial PRIMARY KEY,
+name VARCHAR NOT NULL,
+uri VARCHAR NOT NULL,
+contactor_name VARCHAR NOT NULL,
+contractor_phone VARCHAR NOT NULL,
+contractor_location VARCHAR NOT NULL,
+manager_name VARCHAR NOT NULL,
+tenant_id VARCHAR NOT NULL,
+created_at timestamp
 );
 
 CREATE TABLE property(

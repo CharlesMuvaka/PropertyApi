@@ -1,12 +1,14 @@
 package org.example.models;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Defect implements Serializable {
     int id;
 
     private String description , property_name, unit_name, string_uri, tenant_id, manager_name;
+    private Timestamp created_at;
 
     public Defect() {
     }
@@ -87,5 +89,13 @@ public class Defect implements Serializable {
 
     public void setManager_name(String manager_name) {
         this.manager_name = manager_name;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 }

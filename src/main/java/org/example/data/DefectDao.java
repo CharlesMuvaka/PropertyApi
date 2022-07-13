@@ -9,7 +9,7 @@ import java.util.List;
 public class DefectDao implements DefectInterface {
     @Override
     public void addDefect(Defect defect) {
-        String query = "INSERT INTO defects(description,tenant_id,string_uri,unit_name,manager_name,property_name) VALUES(:description,:tenant_id,:string_uri,:unit_name,:manager_name,:property_name)";
+        String query = "INSERT INTO defects(description,tenant_id,string_uri,unit_name,manager_name,property_name, created_at) VALUES(:description,:tenant_id,:string_uri,:unit_name,:manager_name,:property_name, now())";
         try(Connection conn = DB.sql20.open()){
             int id = (int) conn.createQuery(query)
                     .addParameter("description", defect.getDescription())
