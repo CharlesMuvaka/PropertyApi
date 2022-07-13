@@ -447,6 +447,17 @@ public class Main {
             }
         });
 
+        //get all defects of the same tenant
+        get("/tenantDefects/:tenantId", "application/json", (req, res)->{
+            String id = req.params(":tenantId");
+
+            if(dao.getDefectsByTenantId(id) == null){
+                return new ApiException(404, "There are no tenants in the available property");
+
+            }else {
+                return gson.toJson(dao.getDefectsByTenantId(id));
+            }
+        });
 
 
         exception(ApiException.class, (exc, req, res) -> {

@@ -16,6 +16,7 @@ public interface DefectInterface {
     List<Defect> getDefectsOfSameManager(String managerName);
     List<Defect> getDefectsOfSameProperty(String propertyName);
     List<Defect> getAllDefects();
+    List<Defect> getDefectsByTenantId(String id);
 
     //Update
 

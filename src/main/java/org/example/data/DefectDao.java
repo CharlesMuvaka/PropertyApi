@@ -58,4 +58,12 @@ public class DefectDao implements DefectInterface {
             return conn.createQuery(query).throwOnMappingFailure(false).executeAndFetch(Defect.class);
         }
     }
+
+    @Override
+    public List<Defect> getDefectsByTenantId(String id) {
+        String query = "SELECT * FROM defects WHERE tenant_id = :id";
+        try(Connection conn = DB.sql20.open()){
+            return conn.createQuery(query).addParameter("id", id).throwOnMappingFailure(false).executeAndFetch(Defect.class);
+        }
+    }
 }
