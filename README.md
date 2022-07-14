@@ -1,10 +1,10 @@
-##Property-Api
--This is an api built using the spark framework.It is able to post,retrieve,update, and delete records from a Postgres database.It is able to retrieve add new properties and show the relationships between the manager, tenants and the units. This prevents entry of non-corresponding values into tables throwing the corresponding relevant exception messages as retrieve data to help resolve errors. description
+## Property-Api
+- This is an api built using the spark framework.It is able to post,retrieve,update, and delete records from a Postgres database.It is able to retrieve add new properties and show the relationships between the manager, tenants and the units. This prevents entry of non-corresponding values into tables throwing the corresponding relevant exception messages as retrieve data to help resolve errors. description
 
-##Note:
--For easy testing of endpoints it is much easier to use the h2 persistent database because it is faster to delete and recreate rather than reset database completely if need be in postgres. Delete the 'newss-Api.db' file in the home directory to achieve this.
--Uncomment or Comment out the h2 or postgres Sql2o line depending on which database you want to use for testing.
--To use the postgres database run the create.sql script in the src/main/resources/sql folder in the project directory or run the following:
+## Note:
+- For easy testing of endpoints it is much easier to use the h2 persistent database because it is faster to delete and recreate rather than reset database completely if need be in postgres. Delete the 'newss-Api.db' file in the home directory to achieve this.
+- Uncomment or Comment out the h2 or postgres Sql2o line depending on which database you want to use for testing.
+- To use the postgres database run the create.sql script in the src/main/resources/sql folder in the project directory or run the following:
 
 
     CREATE TABLE defects
@@ -73,38 +73,37 @@
          unit_rooms VARCHAR NOT NULL
     );
 
-###Note the database name is my_property if using the postgres database
+### Note the database name is my_property if using the postgres database
 
-##Make sure you enter the correct username and password in the db class inside the dao package when using postgres
--Prerequisites
-
--Knowledge of On Git CLI
--Java 11
--Gradle as a built tool
--IntelliJ or any Java based IDE
--postgres SQL sever installed
--Postman desktop client installed
--Technologies
--Java 11
--Gradle
--Spark
--JUnit
--Postgres Sql
--Installation
--Clone or download repository as an archive
--If archive unzip the archive to get project folder
--Open the application's root folder in an IDE that can execute builds in java using gradle e.g. IntelliJ or Eclipse.
--Navigate to the App.java file and run the main class
--Use the link below to access the labeled request collection in Postman web,fork the collection into your personal workspace.
+## Make sure you enter the correct username and password in the db class inside the dao package when using postgres
+- Prerequisites
+- Knowledge of On Git CLI
+- Java 11
+- Gradle as a built tool
+- IntelliJ or any Java based IDE
+- postgres SQL sever installed
+- Postman desktop client installed
+- Technologies
+- Java 11
+- Gradle
+- Spark
+- JUnit
+- Postgres Sql
+- Installation
+- Clone or download repository as an archive
+- If archive unzip the archive to get project folder
+- Open the application's root folder in an IDE that can execute builds in java using gradle e.g. IntelliJ or Eclipse.
+- Navigate to the App.java file and run the main class
+- Use the link below to access the labeled request collection in Postman web,fork the collection into your personal workspace.
   "https://www.postman.com/dark-rocket-354200/workspace/team-workspace/collection/20876568-ce40f82f-3c9a-492d-a71e-119eed23c031?action=share&creator=20876568"
--For testing use Postman desktop client to access the forked collection because their cloud client does not access local ports like localhost:4567 or 0.0.0.0:4567.
--In postman replace where indicated :id the number with the id you want to use in the path variables
--Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to the h2 database
--If you do not fork the already created postman collection make sure to enter and label yours correctly to avoid errors because of extra spaces or missing characters
--You can use the sample data in the sample jsons folder to make testing faster
--Some sample endpoint responses using the Articles and Staff Objects
+- For testing use Postman desktop client to access the forked collection because their cloud client does not access local ports like localhost:4567 or 0.0.0.0:4567.
+- In postman replace where indicated :id the number with the id you want to use in the path variables
+- Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to the h2 database
+- If you do not fork the already created postman collection make sure to enter and label yours correctly to avoid errors because of extra spaces or missing characters
+- You can use the sample data in the sample jsons folder to make testing faster
+- Some sample endpoint responses using the Articles and Staff Objects
 
-  ##add a property manager
+  ## add a property manager
 
     POST /property-api/property-managers
     {
@@ -119,7 +118,7 @@ Response
         "email": "
     }
 
-##Add a tenant
+## Add a tenant
 
     POST /property-api/tenants
      }
@@ -142,7 +141,7 @@ Response
          }
 
      
-#get all property managers
+# get all property managers
 Response
 
     {
@@ -165,13 +164,13 @@ Response
 
    
 
-#get property manager by id
+# get property manager by id
 
     Entry
     {
     "id": 1
     }
-#Delete property manager by id
+# Delete property manager by id
 
     Entry
     {
@@ -199,7 +198,7 @@ Response
             "email": "
         }
     ]
-#get all managers properties
+# get all managers properties
 
     Entry
     {
@@ -221,22 +220,22 @@ Response
 
      }
 
- ##Delete all managers properties
+ ## Delete all managers properties
  
     Entry
     {
     "id": 1
     }
--If manager properties has entries, it deletes and return an empty array
+- If manager properties has entries, it deletes and return an empty array
 []
--If manager properties is already empty
+- If manager properties is already empty
 
     {
     "errorMessage": "Staff is already empty, cant delete all",
     "status": 404
     }
 
-#updating a propertyManager
+# updating a propertyManager
 
     Entry
     {
@@ -249,7 +248,7 @@ Response
     }
 
 
-#get all tenants
+# get all tenants
 Response
 
     {
@@ -267,7 +266,7 @@ Response
     ]
     }
 
-#get all tenants in the same Property
+# get all tenants in the same Property
 Response
 
     {
@@ -285,20 +284,20 @@ Response
     ]
     }
 
- #get tenant by id
+ # get tenant by id
      
         Entry
         {
         "id": 1
         }
-#Delete tenant by id
+# Delete tenant by id
          
             Entry
             {
             "id": 1
             }
 
-#get all units
+# get all units
 Response
 
     { 
@@ -315,7 +314,7 @@ Response
         }
     ]
     }
-#add a defect
+# add a defect
 
     POST /property-api/defects
     {
@@ -327,20 +326,20 @@ Response
         "defect_description": "
     }
 
-#get defect by id
+# get defect by id
          
             Entry
             {
             "id": 1
             }
-#Delete defect by id
+# Delete defect by id
              
                 Entry
                 {
                 "id": 1
                 }
 
-#get all defects  
+# get all defects  
 Response
 
     {
@@ -363,14 +362,14 @@ NOTE: Not all individual response behaviors are covered by the samples but all r
 To Contribute or Fix bug
 To fix a bug or enhance an existing module, follow these steps:
 
-Fork the repo
-Create a new branch (git checkout -b improve-feature)
-Make the appropriate changes in the files
-Add changes to reflect the changes made
-Commit your changes (git commit -m 'Improve feature')
-Push to the branch (git push origin improve-feature)
-Create a Pull Request
-BUGS FOUND
+- Fork the repo
+- Create a new branch (git checkout -b improve-feature)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (git commit -m 'Improve feature')
+- Push to the branch (git push origin improve-feature)
+- Create a Pull Request
+- BUGS FOUND
 If you come across any bug in the project kindly report using the link below
 
 Link link
