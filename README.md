@@ -6,6 +6,9 @@
 - Uncomment or Comment out the h2 or postgres Sql2o line depending on which database you want to use for testing.
 - To use the postgres database run the create.sql script in the src/main/resources/sql folder in the project directory or run the following:
 
+###   CREATE DATABASE  my_property;
+
+    \c my_property ;
 
     CREATE TABLE defects
       (
