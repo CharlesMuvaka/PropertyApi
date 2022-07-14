@@ -77,6 +77,7 @@
 
 ##Make sure you enter the correct username and password in the db class inside the dao package when using postgres
 -Prerequisites
+
 -Knowledge of On Git CLI
 -Java 11
 -Gradle as a built tool
