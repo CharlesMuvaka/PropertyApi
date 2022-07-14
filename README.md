@@ -105,173 +105,259 @@
 
   ##add a property manager
 
-     Entry
+    POST /property-api/property-managers
     {
-    "title": "First Article",
-    "message": "First Article's message"
-    }
+        "manager_name": "John Doe",
+        "phone_number": "0712345678",
+        "email": "
 Response
 
     {
-    "id": 1,
-    "title": "First Article",
-    "message": "First Article's message",
-    "dept_id": 0,
-    "department": "THIS IS A GENERAL COMPANY ARTICLE"
+        "manager_name": "John Doe",
+        "phone_number": "0712345678",
+        "email": "
     }
 
 ##Add a tenant
 
-       Entry
-       {
-       "title": "Second Article",
-       "message": "Second Article's message",
-       "dept_id": 2
+    POST /property-api/tenants
      }
--Response if department with id does not exist
-
-     {
-    "errorMessage": "The department ID you have allocated this article does not exist please make sure there is a department with an ID of 2 for this to work",
-    "status": 404
-     }
--Response if tenant exists
-
-     {
-      "id": 2,
-      "title": "Second Article",
-      "message": "Second Article's message",
-      "dept_id": 2,
-      "department": "Finance Department"
-      }
-Get all properties
 Response
 
-        [
-        {
-        "id": 1,
-        "title": "First Article",
-        "message": "First Article's message",
-        "dept_id": 0,
-        "department": "THIS IS A GENERAL COMPANY ARTICLE"
-        },
-        {
-        "id": 2,
-        "title": "Second Article",
-        "message": "Second Article's message",
-        "dept_id": 2,
-        "department": "Finance Department"
-        },
-        {
-        "id": 3,
-        "title": "Third Article",
-        "message": "Third Article's message",
-        "dept_id": 2,
-        "department": "Finance Department"
-        }
-     ]
-#Delete article by id
--If article does not Exist
+    {
+        "tenant_name": "John Doe",
+        "tenant_email": "
+    }   
+-Response if tenant does not exist
 
     {
-    "errorMessage": "The Article with an ID of 78 does not exist you cant delete it",
-    "status": 404
+        "message": "Tenant does not exist"
     }
-#If it Exists.
+-Response if tenant exists
+       
+         {
+         "errorMessage": "The tenant you are trying to add already exists",
+         "status": 400
+         }
+
+     
+#get all property managers
+Response
+
+    {
+    "property_managers": [
+        {
+            "id": 1,
+            "manager_name": "John Doe",
+            "phone_number": "0712345678",
+            "email": "
+
+        }
+         {
+            "id": 2,
+            "manager_name": "ping pang",
+            "phone_number": "0712345678",
+            "email": "
+
+        }
+    ]
+
+   
+
+#get property manager by id
+
+    Entry
+    {
+    "id": 1
+    }
+#Delete property manager by id
+
+    Entry
+    {
+    "id": 1
+    }
+-If property manager does not Exist
+
+    {
+        "message": "Property manager does not exist"
+    }
+#If property manager Exists.
 -Example at id=2,deletes entry and gets a list off all articles without deleted one to confirm deletion.
 
     [
-    {
-    "id": 1,
-    "title": "First Article",
-    "message": "First Article's message",
-    "dept_id": 0,
-    "department": "THIS IS A GENERAL COMPANY ARTICLE"
-    },
-    {
-    "id": 3,
-    "title": "Third Article",
-    "message": "Third Article's message",
-    "dept_id": 2,
-    "department": "Finance Department"
-    }
+        {
+            "id": 1,
+            "manager_name": "John Doe",
+            "phone_number": "0712345678",
+            "email": "
+        },
+        {
+            "id": 3,
+            "manager_name": "ping pang",
+            "phone_number": "0712345678",
+            "email": "
+        }
     ]
-#Get by staff by id
--If staff member with id:4 doesn't exist
+#get all managers properties
+
+    Entry
+    {
+    "id": 1
+    }
+-If managers property with id:4 doesn't exist
 
     {
-    "errorMessage": "The staff member with id:4 does not exist thus cant be retrieved",
+    "errorMessage": "The mananger property with id:4 does not exist thus cant be retrieved",
     "status": 404
     }
--If staff member with id:4 exists
+-If managers property with id:4 exists
 
         {
-        "id": 4,
-        "name": "Fourth Staff Member",
-        "email": "Fourth@email.com",
-        "phone": "Fourth Staff Member",
-        "rank": "Personal Assistant",
-        "staffRole": "Assists Manager",
-        "dept_id": 1,
-        "department": "Public Relations Department"
+            "id": 4,
+            "property_name": "John Doe",
+            "property_location": "
+        }
 
      }
 
- ##Delete all Staff
--If staff table has entries, it deletes and return an empty array
+ ##Delete all managers properties
+ 
+    Entry
+    {
+    "id": 1
+    }
+-If manager properties has entries, it deletes and return an empty array
 []
--If staff table is already empty
+-If manager properties is already empty
 
     {
     "errorMessage": "Staff is already empty, cant delete all",
     "status": 404
     }
-#Sample response to show one-to-many relationship to the Department table
--If the department does not exist
-Staff retrieval error
+
+#updating a propertyManager
+
+    Entry
+    {
+     "id": 1
+    } and the new values
+    {
+        "manager_name": "John Doe",
+        "phone_number": "0712345678",
+        "email": "
+    }
+
+
+#get all tenants
+Response
 
     {
-    "errorMessage": "The department with id:23 does not exist thus cannot have staff allocated",
-    "status": 404
-    }
-Article retrieval error
-
-    {
-    "errorMessage": "The department with id:23 does not exist thus cannot have Articles allocated",
-    "status": 404
-    }
-If it exists
-But with no staff assigned
-
+    "tenants": [
         {
-        "errorMessage": "This department doesn't have any staff members allocated. Add staff to it by allocating a staff member the dept_id:7",
-        "status": 404
+            "id": 1,
+            "tenant_name": "John Doe",
+            "tenant_email": "
+        },
+        {
+            "id": 2,
+            "tenant_name": "ping pang",
+            "tenant_email": "
         }
-  With staff assigned
-
-    [
-    {
-    "id": 2,
-    "name": "First Staff Member",
-    "email": "First@email.com",
-    "phone": "First Staff Member",
-    "rank": "Video Editor",
-    "staffRole": "Edits videos",
-    "dept_id": 2,
-    "department": "Finance Department"
-
-    },
-    {
-        "id": 3,
-        "name": "Third Staff Member",
-        "email": "Third@email.com",
-        "phone": "Third Staff Member",
-        "rank": "Secretary",
-        "staffRole": "Files office papers",
-        "dept_id": 2, 
-        "department": "Finance Department"
-
+    ]
     }
-]
+
+#get all tenants in the same Property
+Response
+
+    {
+    "tenants": [
+        {
+            "id": 1,
+            "tenant_name": "John Doe",
+            "tenant_email": "
+        },
+        {
+            "id": 2,
+            "tenant_name": "ping pang",
+            "tenant_email": "
+        }
+    ]
+    }
+
+ #get tenant by id
+     
+        Entry
+        {
+        "id": 1
+        }
+#Delete tenant by id
+         
+            Entry
+            {
+            "id": 1
+            }
+
+#get all units
+Response
+
+    { 
+    "units": [
+        {
+            "id": 1,
+            "unit_name": "John Doe",
+            "unit_rooms": "
+        },
+        {
+            "id": 2,
+            "unit_name": "ping pang",
+            "unit_rooms": "
+        }
+    ]
+    }
+#add a defect
+
+    POST /property-api/defects
+    {
+        "defect_name": "John Doe",
+        "defect_description": "
+    Response
+    {
+        "defect_name": "John Doe",
+        "defect_description": "
+    }
+
+#get defect by id
+         
+            Entry
+            {
+            "id": 1
+            }
+#Delete defect by id
+             
+                Entry
+                {
+                "id": 1
+                }
+
+#get all defects  
+Response
+
+    {
+    "defects": [
+        {
+            "id": 1,
+            "defect_name": "John Doe",
+            "defect_description": "
+        },
+        {
+            "id": 2,
+            "defect_name": "ping pang",
+            "defect_description": "
+        }
+    ]
+    }
+
+
 NOTE: Not all individual response behaviors are covered by the samples but all response types are covered by the samples to provide a correct idea of what responses will look like endpoints are hit
 To Contribute or Fix bug
 To fix a bug or enhance an existing module, follow these steps:
