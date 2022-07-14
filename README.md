@@ -97,8 +97,6 @@
 - If archive unzip the archive to get project folder
 - Open the application's root folder in an IDE that can execute builds in java using gradle e.g. IntelliJ or Eclipse.
 - Navigate to the App.java file and run the main class
-- Use the link below to access the labeled request collection in Postman web,fork the collection into your personal workspace.
-  "https://www.postman.com/dark-rocket-354200/workspace/team-workspace/collection/20876568-ce40f82f-3c9a-492d-a71e-119eed23c031?action=share&creator=20876568"
 - For testing use Postman desktop client to access the forked collection because their cloud client does not access local ports like localhost:4567 or 0.0.0.0:4567.
 - In postman replace where indicated :id the number with the id you want to use in the path variables
 - Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to the h2 database
@@ -106,7 +104,7 @@
 - You can use the sample data in the sample jsons folder to make testing faster
 - Some sample endpoint responses using the Articles and Staff Objects
 
-  ## add a property manager
+#### add a property manager
 
     POST /property-api/property-managers
     {
@@ -121,7 +119,7 @@ Response
         "email": "
     }
 
-## Add a tenant
+####  Add a tenant
 
     POST /property-api/tenants
      }
@@ -143,8 +141,8 @@ Response
          "status": 400
          }
 
-     
-# get all property managers
+
+####  get all property managers
 Response
 
     {
@@ -165,15 +163,16 @@ Response
         }
     ]
 
-   
 
-# get property manager by id
+
+#### get property manager by id
 
     Entry
     {
     "id": 1
     }
-# Delete property manager by id
+
+####  Delete property manager by id
 
     Entry
     {
@@ -184,7 +183,7 @@ Response
     {
         "message": "Property manager does not exist"
     }
-#If property manager Exists.
+####  If property manager Exists.
 -Example at id=2,deletes entry and gets a list off all articles without deleted one to confirm deletion.
 
     [
@@ -201,7 +200,7 @@ Response
             "email": "
         }
     ]
-# get all managers properties
+####  get all managers properties
 
     Entry
     {
@@ -223,7 +222,7 @@ Response
 
      }
 
- ## Delete all managers properties
+#### Delete all managers properties
  
     Entry
     {
@@ -238,7 +237,7 @@ Response
     "status": 404
     }
 
-# updating a propertyManager
+####  updating a propertyManager
 
     Entry
     {
@@ -251,7 +250,7 @@ Response
     }
 
 
-# get all tenants
+####  get all tenants
 Response
 
     {
@@ -269,7 +268,7 @@ Response
     ]
     }
 
-# get all tenants in the same Property
+#### get all tenants in the same Property
 Response
 
     {
@@ -287,20 +286,20 @@ Response
     ]
     }
 
- # get tenant by id
+#### get tenant by id
      
         Entry
         {
         "id": 1
         }
-# Delete tenant by id
+#### Delete tenant by id
          
             Entry
             {
             "id": 1
             }
 
-# get all units
+#### get all units
 Response
 
     { 
@@ -317,7 +316,7 @@ Response
         }
     ]
     }
-# add a defect
+#### add a defect
 
     POST /property-api/defects
     {
@@ -329,20 +328,20 @@ Response
         "defect_description": "
     }
 
-# get defect by id
+#### get defect by id
          
             Entry
             {
             "id": 1
             }
-# Delete defect by id
+#### Delete defect by id
              
                 Entry
                 {
                 "id": 1
                 }
 
-# get all defects  
+#### get all defects  
 Response
 
     {
