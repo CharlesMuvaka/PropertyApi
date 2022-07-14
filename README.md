@@ -97,8 +97,6 @@
 - If archive unzip the archive to get project folder
 - Open the application's root folder in an IDE that can execute builds in java using gradle e.g. IntelliJ or Eclipse.
 - Navigate to the App.java file and run the main class
-- Use the link below to access the labeled request collection in Postman web,fork the collection into your personal workspace.
-  "https://www.postman.com/dark-rocket-354200/workspace/team-workspace/collection/20876568-ce40f82f-3c9a-492d-a71e-119eed23c031?action=share&creator=20876568"
 - For testing use Postman desktop client to access the forked collection because their cloud client does not access local ports like localhost:4567 or 0.0.0.0:4567.
 - In postman replace where indicated :id the number with the id you want to use in the path variables
 - Make sure you recreate the database in your local psql by running the psql commands above, or you have switched to the h2 database
